@@ -3,6 +3,8 @@ using GLPK
 
 m = Model(GLPK.Optimizer)
 
+# Variables:
+# Time when each step is finished, from step 1 (E1) to step 9 (E9)  
 @variable(m, E1 >= 0)
 @variable(m, E2 >= 0)
 @variable(m, E3 >= 0)
@@ -12,6 +14,9 @@ m = Model(GLPK.Optimizer)
 @variable(m, E7 >= 0)
 @variable(m, E8 >= 0)
 @variable(m, E9 >= 0)
+
+# Constraints:
+# Each step needs to be finished after their requirements end time plus its own duration  
 @constraint(m, E2 >= E1 + 2)
 @constraint(m, E3 >= E1 + 3)
 @constraint(m, E4 >= E3 + 2.5)
@@ -24,6 +29,9 @@ m = Model(GLPK.Optimizer)
 @constraint(m, E8 >= E4 + 3)
 @constraint(m, E9 >= E7)
 @constraint(m, E9 >= E8)
+
+# Objective
+# Final step end time must be minimal
 @objective(m, Min, E9)
 
 optimize!(m)
@@ -39,7 +47,7 @@ optimize!(m)
 @show objective_value(m)
 @show termination_status(m)
 
-# ******** Resultados ********
+# ******** Results ********
 #
 # value(E1) = 0.0
 # value(E2) = 2.0
@@ -51,7 +59,7 @@ optimize!(m)
 # value(E8) = 8.5
 # value(E9) = 11.5
 #
-# No tempo:
+# Display in time:
 #                                                                      E9
 # E1          E2    E3       E5    E4          E6    E8                E7
 # |-----|-----|-----|-----|-----|-----|-----|-----|-----|-----|-----|-----|

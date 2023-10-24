@@ -3,16 +3,26 @@ using GLPK
 
 m = Model(GLPK.Optimizer)
 
+# Variables:
+# All the edges connecting the graph
 @variable(m, ab >= 0)
 @variable(m, ac >= 0)
 @variable(m, bc >= 0)
 @variable(m, bd >= 0)
 @variable(m, ce >= 0)
 @variable(m, de >= 0)
+
+# Constrains:
+# The value of edges reaching and exiting a node have to be equal,
+# except when it's the final node, where the edges leading to it have a sum of exactly 1,
+# forcing the path to reach the destination
 @constraint(m, ab == bc + bd)
 @constraint(m, ac + bc == ce)
 @constraint(m, bd == de)
 @constraint(m, ce + de == 1)
+
+# Objective:
+# The choice of edges maximize the cargo
 @objective(m, Max, 8ab + 3ac + 8bc + 3bd + 7ce + 5de)
 
 optimize!(m)
@@ -25,7 +35,7 @@ optimize!(m)
 @show objective_value(m)
 @show termination_status(m)
 
-# ******** Resultados ********
+# ******** Results ********
 #
 # value(ab) = 1.0
 # value(ac) = 0.0
@@ -35,5 +45,5 @@ optimize!(m)
 # value(de) = 0.0
 # objective_value(m) = 23.0
 #
-# Caminho máximo: A -> B -> C -> E
-#                    8    8    7   
+# Optimal path: A -> B -> C -> E
+#                 8    8    7   
