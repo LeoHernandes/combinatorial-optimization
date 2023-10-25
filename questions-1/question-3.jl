@@ -3,7 +3,7 @@ using GLPK
 
 m = Model(GLPK.Optimizer)
 
-# Varibales:
+# Variables:
 # Array of size 24 representing how many cops started working at each hour of the day
 @variable(m, p[1:24] >= 0)
 
