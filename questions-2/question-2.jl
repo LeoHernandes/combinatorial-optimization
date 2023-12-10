@@ -30,7 +30,6 @@ BIG_VALUE = 10000
 # Objective: Do the maximum damage
 @objective(model, Max, mammon * 2000 + arrow * 1750 + flame * 1000)
 
-# Soluciona o modelo
 optimize!(model)
 
 @show objective_value(model)

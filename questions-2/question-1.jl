@@ -35,7 +35,6 @@ end
 # Objective: Minimize a dummy variable (not really needed for this problem)
 @objective(model, Min, sum(x))
 
-# Soluciona o modelo
 optimize!(model)
 
 @show objective_value(model)
